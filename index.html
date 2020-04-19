@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.min.js"></script>
     <title>Zurich public water fountains map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
@@ -35,8 +36,9 @@
         var current_position;
         var current_position_marker;
 
-        function positioChanged(prev_pos, new_pos) {
+        function positioChanged(prev_pos, new_pos, new_angle) {
             current_position_marker.setLatLng(new_pos);
+            current_position_marker.setRotationAngle(new_angle);
             L.polyline([prev_pos, new_pos], {
                 color: 'red',
                 weight: 5,
@@ -55,14 +57,17 @@
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+            
+            var angle = position.coords.heading;
 
             if (current_position === undefined) {
                 current_position = pos;
+                positioChanged(current_position, current_position, angle);
                 zoomToCurrentLocation(map);
             } else {
                 prev_pos = current_position;
                 current_position = pos;
-                positioChanged(prev_pos, current_position);
+                positioChanged(prev_pos, current_position, angle);
             }
         }
 
