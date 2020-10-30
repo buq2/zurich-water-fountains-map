@@ -91,7 +91,7 @@
             var json_str = LZString.decompressFromBase64(compressed);
             var fountains = JSON.parse(json_str);
 
-            var map_layer = L.tileLayer('http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png', {
+            var map_layer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; USGS'
             });
 
